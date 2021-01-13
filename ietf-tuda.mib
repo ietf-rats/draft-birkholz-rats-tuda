@@ -10,7 +10,7 @@ IMPORTS
         FROM SNMP-FRAMEWORK-MIB;        -- RFC 3411
 
 tudaV1MIB MODULE-IDENTITY
-    LAST-UPDATED    "202007130000Z" --  13 July 2020
+    LAST-UPDATED    "202101130000Z" --  13 January 2021
     ORGANIZATION
         "Fraunhofer SIT"
     CONTACT-INFO
@@ -35,7 +35,11 @@ tudaV1MIB MODULE-IDENTITY
         attestation information from a network endpoint system,
         based on the Trusted Computing Group TPM 1.2 definition.
 
-        Copyright (C) High North Inc (2020)."
+        Copyright (C) High North Inc (2021)."
+
+    REVISION "202101130000Z" -- 13 January 2021
+    DESCRIPTION
+        "Twelfth version, published as draft-birkholz-rats-tuda-04."
 
     REVISION "202007130000Z" -- 13 July 2020
     DESCRIPTION

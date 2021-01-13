@@ -31,19 +31,61 @@ module TUDA-V1-ATTESTATION-MIB {
     attestation information from a network endpoint system,
     based on the Trusted Computing Group TPM 1.2 definition.
     
-    Copyright (C) High North Inc (2017).";
+    Copyright (C) High North Inc (2021).";
 
+  revision "2021-01-13" {
+    description
+     "Twelfth version, published as draft-birkholz-rats-tuda-04.";
+    reference
+     "draft-birkholz-rats-tuda-04";
+  }
+  revision "2020-07-13" {
+    description
+     "Eleventh version, published as draft-birkholz-rats-tuda-03.";
+    reference
+     "draft-birkholz-rats-tuda-03";
+  }
+  revision "2020-03-09" {
+    description
+     "Tenth version, published as draft-birkholz-rats-tuda-02.";
+    reference
+     "draft-birkholz-rats-tuda-02";
+  }
+  revision "2019-09-11" {
+    description
+     "Ninth version, published as draft-birkholz-rats-tuda-01.";
+    reference
+     "draft-birkholz-rats-tuda-01";
+  }
+  revision "2019-03-12" {
+    description
+     "Eighth version, published as draft-birkholz-rats-tuda-00.";
+    reference
+     "draft-birkholz-rats-tuda-00";
+  }
+  revision "2018-05-03" {
+    description
+     "Seventh version, published as draft-birkholz-i2nsf-tuda-03.";
+    reference
+     "draft-birkholz-i2nsf-tuda-03";
+  }
+  revision "2018-05-02" {
+    description
+     "Sixth version, published as draft-birkholz-i2nsf-tuda-02.";
+    reference
+     "draft-birkholz-i2nsf-tuda-02";
+  }
   revision "2017-10-30" {
     description
-     "Fifth version, published as draft-birkholz-tuda-04.";
+     "Fifth version, published as draft-birkholz-i2nsf-tuda-01.";
     reference
-     "draft-birkholz-tuda-04";
+     "draft-birkholz-i2nsf-tuda-01";
   }
   revision "2017-01-09" {
     description     
-     "Fourth version, published as draft-birkholz-tuda-03.";
+     "Fourth version, published as draft-birkholz-i2nsf-tuda-00.";
     reference
-     "draft-birkholz-tuda-03";
+     "draft-birkholz-i2nsf-tuda-00";
   }
   revision "2016-07-08" {
     description     
@@ -104,7 +146,6 @@ module TUDA-V1-ATTESTATION-MIB {
         
         DEFVAL intentionally omitted - counter object.";
     }
-
 
     /* XXX table comments here XXX */
 
