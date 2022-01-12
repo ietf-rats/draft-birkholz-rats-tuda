@@ -876,14 +876,14 @@ context information for the TUDA attestation process.
 
 ## Definition of TUDA MIB
 
-~~~~ SMIv2
+~~~~ mib
 {::include ietf-tuda.mib}
 ~~~~
 {: markers}
 
 # YANG Realization {#yang}
 
-~~~~ YANG
+~~~~ yang
 {::include TUDA-V1-ATTESTATION-MIB.yang}
 ~~~~
 {: markers}
@@ -974,7 +974,7 @@ This element consists of the AIK certificate that includes the AIK's public key 
 during verification as well as the certificate chain up to the Root CA for validation
 of the AIK certificate itself.
 
-~~~~ CDDL
+~~~~ cddl
 TUDA-Cert = [AIK-Cert, TSA-Cert]; maybe split into two for SNMP
 AIK-Cert = Cert
 TSA-Cert = Cert
@@ -1027,7 +1027,7 @@ their position on a time-axis.
 These three elements, with the TSA's certificate factored out, form
 the synchronization token
 
-~~~~ CDDL
+~~~~ cddl
 TUDA-Synctoken = [
   left: TickStampBlob-Output,
   timestamp: TimeStampToken,
@@ -1103,7 +1103,7 @@ This token is formed from the list of:
 - the newly created restricted public key, and
 - the certificate.
 
-~~~~ CDDL
+~~~~ cddl
 TUDA-RestrictionInfo = [Composite,
                         restrictedKey_Pub: Pubkey,
                         CertifyInfo]
@@ -1203,7 +1203,7 @@ those elements that were extended into the PCRs is reported. Note though that fo
 certain environments, this step may be optional if a list of valid PCR configurations
 exists and no measurement log is required.
 
-~~~~ CDDL
+~~~~ cddl
 TUDA-Measurement-Log = [*PCR-Event]
 PCR-Event = [
   type: PCR-Event-Type,
@@ -1236,7 +1236,7 @@ timing can then be related to the real-time clock.
 
 This element consists only of the TPM_TickStampBlock with no nonce.
 
-~~~~ CDDL
+~~~~ cddl
 TUDA-Verifytoken = TickStampBlob-Output
 ~~~~
 {:cddl #verify-token title="TUDA-Verify element in CDDL"}
