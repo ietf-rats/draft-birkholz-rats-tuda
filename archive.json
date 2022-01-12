@@ -1,0 +1,97 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2022-01-12T17:59:52.193459+00:00",
+  "repo": "ietf-rats/draft-birkholz-rats-tuda",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg3NzU0MzY1",
+      "title": "Cleanup for IETF111",
+      "url": "https://github.com/ietf-rats/draft-birkholz-rats-tuda/pull/1",
+      "state": "MERGED",
+      "author": "cabo",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-07-12T11:23:53Z",
+      "updatedAt": "2021-07-12T14:24:51Z",
+      "baseRepository": "ietf-rats/draft-birkholz-rats-tuda",
+      "baseRefName": "master",
+      "baseRefOid": "6ca8d4d32ef0d1c32e96c6808ea1e12c790a13b8",
+      "headRepository": "cabo/draft-birkholz-rats-tuda",
+      "headRefName": "cleanup111",
+      "headRefOid": "af0b8ecdbccf438d99e8835eb2588f624cb18601",
+      "closedAt": "2021-07-12T14:24:50Z",
+      "mergedAt": "2021-07-12T14:24:50Z",
+      "mergedBy": "henkbirkholz",
+      "mergeCommit": {
+        "oid": "03e65bf7c8e072f9acffd9823a143b8cb16f7bc9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzA0MTc3MDgw",
+          "commit": {
+            "abbreviatedOid": "af0b8ec"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-12T14:24:43Z",
+          "updatedAt": "2021-07-12T14:24:43Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
