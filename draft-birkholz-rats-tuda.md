@@ -15,6 +15,11 @@ pi:
   symrefs: yes
   comments: yes
 
+venue:
+  group: Remote ATtestation ProcedureS (rats)
+  mail: rats@ietf.org
+  github: ietf-rats/draft-birkholz-rats-tuda
+
 author:
 - ins: A. Fuchs
   name: Andreas Fuchs
