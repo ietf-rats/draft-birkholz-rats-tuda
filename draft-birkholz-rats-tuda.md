@@ -315,7 +315,8 @@ Time-Based Uni-directional Attestation is designed to:
 * increase the confidence in authentication and authorization procedures,
 * address the requirements of constrained-node networks,
 * support interaction models that do not maintain connection-state over time, such as REST architectures {{REST}},
-* be able to leverage existing management interfaces, such as SNMP ({{RFC3411}}). RESTCONF {{-restconf}} or CoMI {{-comi}} --- and corresponding bindings,
+* be able to leverage existing management interfaces, such as SNMP
+  (RFC 3411, {{STD62}}). RESTCONF {{-restconf}} or CoMI {{-comi}} --- and corresponding bindings,
 * support broadcast and multicast schemes (e.g. {{IEEE1609}}),
 * be able to cope with temporary loss of connectivity, and to
 * provide trustworthy audit logs of past endpoint states.
@@ -768,7 +769,7 @@ server, or they could be prescribed by a RESTCONF data model {{-restconf}}.
 
 # SNMP Realization {#snmp}
 
-SNMPv3 [STD62] {{RFC3411}} is widely available on computers and also constrained devices.
+SNMPv3 (RFC 3411, {{STD62}}) is widely available on computers and also constrained devices.
 To transport the TUDA information elements, an SNMP MIB is defined below which
 encodes each of the seven TUDA information elements into a table.  Each row in a
 table contains a single read-only columnar SNMP object of datatype OCTET-STRING.
@@ -865,7 +866,7 @@ in the Entity MIB v4 [RFC6933].
 ## Relationship to Other MIBs
 
 The General group in the TUDA MIB is analogous to the System group in MIB-II
-[RFC1213] and the System group in the SNMPv2 MIB [RFC3418] and provides
+[RFC1213] and the System group in the SNMPv2 MIB (RFC 3418, {{STD62}}) and provides
 context information for the TUDA attestation process.
 
 ## Definition of TUDA MIB
