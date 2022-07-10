@@ -1,14 +1,16 @@
 ---
+v: 3
+
 title: 'Time-Based Uni-Directional Attestation'
 abbrev: TUDA
 docname: draft-birkholz-rats-tuda-latest
 stand_alone: true
-ipr: trust200902
 area: Security
 wg: RATS Working Group
 kw: Internet-Draft
 cat: std
 consensus: true
+stream: IETF
 pi:
   toc: yes
   sortrefs: yes
@@ -330,7 +332,7 @@ Time-Based Uni-directional Attestation is designed to:
 
 This document uses the terms defined in the RATS Architecture {{-rats}} and by the RATS Reference Interaction Models {{-models}}.
 
-{::boilerplate bcp14}
+{::boilerplate bcp14-tagged}
 
 # Remote Attestation Principles
 
