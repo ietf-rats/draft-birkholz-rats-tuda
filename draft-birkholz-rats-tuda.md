@@ -886,7 +886,7 @@ context information for the TUDA attestation process.
 # YANG Realization {#yang}
 
 ~~~~ yang
-{::include TUDA-V1-ATTESTATION-MIB.yang}
+{::include-fold TUDA-V1-ATTESTATION-MIB.yang}
 ~~~~
 {: markers}
 
@@ -1145,7 +1145,7 @@ TPM-PCR-INFO = [
 ]
 
 TPM-KEY-PARMS = [
-  ; algorithmID: uint, ; <= 4 bytes -- not encoded, constant for TPM1.2
+  ; algorithmID: uint, ; <= 4 bytes, not encoded, constant for TPM1.2
   encScheme: uint, ; <= 2 bytes
   sigScheme: uint, ; <= 2 bytes
   parms: TPM-RSA-KEY-PARMS,
@@ -1277,7 +1277,8 @@ the corresponding code listings need to be re-executed.
 | ts_left = Synctoken.left
 | ts_right = Synctoken.right
 |
-| /* Reconstruct ts_right's omitted values; Alternatively assert == */
+| /* Reconstruct ts_right's omitted values;
+|    Alternatively assert == */
 | ts_right.currentTicks.tickRate = ts_left.currentTicks.tickRate
 | ts_right.currentTicks.tickNonce = ts_left.currentTicks.tickNonce
 |
@@ -1290,10 +1291,10 @@ the corresponding code listings need to be re-executed.
 | verifySig(AIK_pub, dummyNonce || hash(timestamp) || ticks_right)
 |
 | delta_left = timestamp.time -
-|     ticks_left.currentTicks * ticks_left.tickRate / 1000
+|   ticks_left.currentTicks * ticks_left.tickRate / 1000
 |
 | delta_right = timestamp.time -
-|     ticks_right.currentTicks * ticks_right.tickRate / 1000
+|   ticks_right.currentTicks * ticks_right.tickRate / 1000
 ~~~~
 {: #verify-sync title="Verification of Synchronization Token"}
 
@@ -1353,8 +1354,8 @@ the corresponding code listings need to be re-executed.
 |
 | ticks = ts.currentTicks
 |
-| time_left = delta_right + ticks.currentTicks * ticks.tickRate / 1000
-| time_right = delta_left + ticks.currentTicks * ticks.tickRate / 1000
+| time_left = delta_right + ticks.currentTicks * ticks.tickRate/1000
+| time_right = delta_left + ticks.currentTicks * ticks.tickRate/1000
 |
 | [time_left, time_right]
 ~~~~
@@ -1436,7 +1437,8 @@ Measurement-Log = [
 The TUDA attestation token consists of the result of TPM2_Quote() or a set of TPM2_PCR_READ followed by a TPM2_GetSessionAuditDigest. It proves that --- at a certain point-in-time with respect to the TPM's internal clock --- a certain configuration of PCRs was present, as denoted in the keys restriction information.
 
 ~~~~ pseudocode
-TUDA-AttestationToken = TUDA-AttestationToken_quote / TUDA-AttestationToken_audit
+TUDA-AttestationToken = TUDA-AttestationToken_quote
+                      / TUDA-AttestationToken_audit
 
 TUDA-AttestationToken_quote = sig(AIK-Key,
                                   TimeInfo = [
