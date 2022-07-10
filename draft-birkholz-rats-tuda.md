@@ -680,7 +680,7 @@ Implicit Attestation for each time that an attestation is needed
 
 The following diagram is based on the reference interaction model found in section 8.1. of {{-models}} and is enriched with the IE update cycles defined in this section.
 
-~~~~
+~~~~ aasvg
 .----------.                                                .----------.
 | Attester |                                                | Verifier |
 '----------'                                                '----------'
