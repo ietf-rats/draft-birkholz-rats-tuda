@@ -5,11 +5,11 @@
 RATS Working Group                                              A. Fuchs
 Internet-Draft                                               H. Birkholz
 Intended status: Standards Track                          Fraunhofer SIT
-Expires: 16 July 2022                                        I. McDonald
+Expires: 11 January 2023                                     I. McDonald
                                                           High North Inc
                                                               C. Bormann
                                                   Universität Bremen TZI
-                                                         12 January 2022
+                                                            10 July 2022
 
 
                  Time-Based Uni-Directional Attestation
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 July 2022.
+   This Internet-Draft will expire on 11 January 2023.
 
 Copyright Notice
 
@@ -892,20 +892,10 @@ evidenceGeneration(handle, authSecIDs, collectedClaims)           |
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
               <https://www.rfc-editor.org/rfc/rfc6690>.
 
-   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/rfc/rfc7230>.
-
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
               <https://www.rfc-editor.org/rfc/rfc7252>.
-
-   [RFC7540]  Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
-              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
-              DOI 10.17487/RFC7540, May 2015,
-              <https://www.rfc-editor.org/rfc/rfc7540>.
 
    [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
               Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
@@ -929,6 +919,14 @@ evidenceGeneration(handle, authSecIDs, collectedClaims)           |
               Representation (CBOR)", STD 94, RFC 8949,
               DOI 10.17487/RFC8949, December 2020,
               <https://www.rfc-editor.org/rfc/rfc8949>.
+
+   [RFC9112]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
+              June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
+
+   [RFC9113]  Thomson, M., Ed. and C. Benfield, Ed., "HTTP/2", RFC 9113,
+              DOI 10.17487/RFC9113, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9113>.
 
 11.2.  Informative References
 
@@ -982,24 +980,23 @@ evidenceGeneration(handle, authSecIDs, collectedClaims)           |
               Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
               W. Pan, "Remote Attestation Procedures Architecture", Work
               in Progress, Internet-Draft, draft-ietf-rats-architecture-
-              14, 9 December 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              architecture-14>.
+              18, 14 June 2022, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-rats-architecture-18>.
 
    [I-D.ietf-rats-reference-interaction-models]
               Birkholz, H., Eckel, M., Pan, W., and E. Voit, "Reference
               Interaction Models for Remote Attestation Procedures",
               Work in Progress, Internet-Draft, draft-ietf-rats-
-              reference-interaction-models-04, 26 July 2021,
+              reference-interaction-models-05, 26 January 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              reference-interaction-models-04>.
+              reference-interaction-models-05>.
 
    [I-D.ietf-sacm-coswid]
               Birkholz, H., Fitzgerald-McKay, J., Schmidt, C., and D.
               Waltermire, "Concise Software Identification Tags", Work
-              in Progress, Internet-Draft, draft-ietf-sacm-coswid-19, 20
-              October 2021, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-sacm-coswid-19>.
+              in Progress, Internet-Draft, draft-ietf-sacm-coswid-21, 7
+              March 2022, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-sacm-coswid-21>.
 
    [IEEE1609] IEEE Computer Society, "1609.4-2016 - IEEE Standard for
               Wireless Access in Vehicular Environments (WAVE) -- Multi-
@@ -1128,7 +1125,7 @@ Appendix A.  REST Realization
    Representations of resources for each of these media types can be
    retrieved from URIs that are defined by the respective servers
    [RFC8820].  As can be derived from the URI, the actual retrieval is
-   via one of the HTTPs ([RFC7230], [RFC7540]) or CoAP [RFC7252].  How a
+   via one of the HTTPs ([RFC9112], [RFC9113]) or CoAP [RFC7252].  How a
    client obtains these URIs is dependent on the application; e.g., CoRE
    Web links [RFC6690] can be used to obtain the relevant URIs from the
    self-description of a server, or they could be prescribed by a
@@ -2053,9 +2050,12 @@ B.5.  Definition of TUDA MIB
 Appendix C.  YANG Realization
 
    <CODE BEGINS>
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
    module TUDA-V1-ATTESTATION-MIB {
 
-     namespace "urn:ietf:params:xml:ns:yang:smiv2:TUDA-V1-ATTESTATION-MIB";
+     namespace "urn:ietf:params:xml:ns:yang:smiv2:TUDA-V1-ATTESTATION-\
+                                                                   MIB";
      prefix "tuda-v1";
 
      import SNMP-FRAMEWORK-MIB { prefix "snmp-framework"; }
@@ -2233,8 +2233,10 @@ Appendix C.  YANG Realization
            config false;
            description
             "Middle index of this AIK Certificate fragment.
-             Ordinal of this AIK Certificate in this chain, where the AIK
-             Certificate itself has an ordinal of '1' and higher ordinals
+             Ordinal of this AIK Certificate in this chain, where the \
+                                                                     AIK
+             Certificate itself has an ordinal of '1' and higher \
+                                                                ordinals
              go *up* the certificate chain to the Root CA.
 
              DEFVAL intentionally omitted - index object.";
@@ -2308,8 +2310,10 @@ Appendix C.  YANG Realization
            config false;
            description
             "Middle index of this TSA Certificate fragment.
-             Ordinal of this TSA Certificate in this chain, where the TSA
-             Certificate itself has an ordinal of '1' and higher ordinals
+             Ordinal of this TSA Certificate in this chain, where the \
+                                                                     TSA
+             Certificate itself has an ordinal of '1' and higher \
+                                                                ordinals
              go *up* the certificate chain to the Root CA.
 
              DEFVAL intentionally omitted - index object.";
@@ -3063,7 +3067,7 @@ D.2.3.  RestrictionInfo
    ]
 
    TPM-KEY-PARMS = [
-     ; algorithmID: uint, ; <= 4 bytes -- not encoded, constant for TPM1.2
+     ; algorithmID: uint, ; <= 4 bytes, not encoded, constant for TPM1.2
      encScheme: uint, ; <= 2 bytes
      sigScheme: uint, ; <= 2 bytes
      parms: TPM-RSA-KEY-PARMS,
@@ -3185,7 +3189,8 @@ D.2.6.  Attestation Verification Approach
    | ts_left = Synctoken.left
    | ts_right = Synctoken.right
    |
-   | /* Reconstruct ts_right's omitted values; Alternatively assert == */
+   | /* Reconstruct ts_right's omitted values;
+   |    Alternatively assert == */
    | ts_right.currentTicks.tickRate = ts_left.currentTicks.tickRate
    | ts_right.currentTicks.tickNonce = ts_left.currentTicks.tickNonce
    |
@@ -3198,10 +3203,10 @@ D.2.6.  Attestation Verification Approach
    | verifySig(AIK_pub, dummyNonce || hash(timestamp) || ticks_right)
    |
    | delta_left = timestamp.time -
-   |     ticks_left.currentTicks * ticks_left.tickRate / 1000
+   |   ticks_left.currentTicks * ticks_left.tickRate / 1000
    |
    | delta_right = timestamp.time -
-   |     ticks_right.currentTicks * ticks_right.tickRate / 1000
+   |   ticks_right.currentTicks * ticks_right.tickRate / 1000
 
               Figure 11: Verification of Synchronization Token
 
@@ -3255,8 +3260,8 @@ D.2.6.  Attestation Verification Approach
    |
    | ticks = ts.currentTicks
    |
-   | time_left = delta_right + ticks.currentTicks * ticks.tickRate / 1000
-   | time_right = delta_left + ticks.currentTicks * ticks.tickRate / 1000
+   | time_left = delta_right + ticks.currentTicks * ticks.tickRate/1000
+   | time_right = delta_left + ticks.currentTicks * ticks.tickRate/1000
    |
    | [time_left, time_right]
 
@@ -3347,7 +3352,8 @@ D.3.4.  Explicit time-based Attestation
    internal clock --- a certain configuration of PCRs was present, as
    denoted in the keys restriction information.
 
-   TUDA-AttestationToken = TUDA-AttestationToken_quote / TUDA-AttestationToken_audit
+   TUDA-AttestationToken = TUDA-AttestationToken_quote
+                         / TUDA-AttestationToken_audit
 
    TUDA-AttestationToken_quote = sig(AIK-Key,
                                      TimeInfo = [
@@ -3395,7 +3401,6 @@ Authors' Addresses
    Rheinstrasse 75
    64295 Darmstadt
    Germany
-
    Email: andreas.fuchs@sit.fraunhofer.de
 
 
@@ -3404,7 +3409,6 @@ Authors' Addresses
    Rheinstrasse 75
    64295 Darmstadt
    Germany
-
    Email: henk.birkholz@sit.fraunhofer.de
 
 
@@ -3413,7 +3417,6 @@ Authors' Addresses
    PO Box 221
    Grand Marais,  49839
    United States of America
-
    Email: blueroofmusic@gmail.com
 
 
@@ -3422,6 +3425,5 @@ Authors' Addresses
    Bibliothekstr. 1
    D-28359 Bremen
    Germany
-
    Phone: +49-421-218-63921
    Email: cabo@tzi.org

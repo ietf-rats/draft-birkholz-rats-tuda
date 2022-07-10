@@ -18,25 +18,26 @@ The Handle Distributor takes on the role of a Time Stamp Authority (TSA) to dist
 RATS require an Attesting Environment that generates believable Evidence.
 While a TPM is used as the corresponding root of trust in this specification, any other type of root of trust can be used with TUDA. 
     " name="description">
-<meta content="xml2rfc 3.12.0" name="generator">
+<meta content="xml2rfc 3.12.10" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-birkholz-rats-tuda-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.12.0
-    Python 3.9.7
+  xml2rfc 3.12.10
+    Python 3.10.4
     appdirs 1.4.4
-    ConfigArgParse 1.3
-    google-i18n-address 2.5.0
+    ConfigArgParse 1.5.3
+    google-i18n-address 2.5.1
     html5lib 1.1
     intervaltree 3.1.0
     Jinja2 2.11.3
     kitchen 1.2.6
-    lxml 4.6.5
+    lxml 4.8.0
+    MarkupSafe 2.0.1
     pycountry 20.7.3
-    pyflakes 2.3.1
-    PyYAML 5.4.1
-    requests 2.26.0
-    setuptools 52.0.0
+    pyflakes 2.4.0
+    PyYAML 6.0
+    requests 2.27.1
+    setuptools 59.4.0
     six 1.16.0
 -->
 <link href="draft-birkholz-rats-tuda.xml" rel="alternate" type="application/rfc+xml">
@@ -161,6 +162,14 @@ While a TPM is used as the corresponding root of trust in this specification, an
   font-weight: 700;
   font-display: swap;
   src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -344,7 +353,7 @@ ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
 }
-ol ol, ul ul, ol ul, ul ol {
+:is(ol, ul) :is(ol, ul) {
   margin-left: 1em;
 }
 li {
@@ -359,8 +368,7 @@ ul.empty, .ulEmpty {
 ul.empty li, .ulEmpty li {
   margin-top: 0.5em;
 }
-ul.compact, .ulCompact,
-ol.compact, .olCompact {
+:is(ul, ol).compact, .ulCompact, .olCompact {
   line-height: 100%;
   margin: 0 0 0 2em;
 }
@@ -376,7 +384,7 @@ dl > dd {
   margin-bottom: .8em;
   min-height: 1.3em;
 }
-dl.compact > dd, .dlCompact > dd {
+:is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0em;
 }
 dl > dd > dl {
@@ -418,6 +426,9 @@ tt, code {
      remove leading to avoid altering the final height of lines */
   line-height: 0;
 }
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
 pre {
   border: 1px solid var(--line-color);
   font-size: 13.5px;
@@ -442,6 +453,19 @@ figcaption, caption {
   text-align: left;
 }
 @media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
   pre, svg {
     display: inline-block;
     overflow-x: auto;
@@ -457,7 +481,7 @@ figcaption, caption {
     display: block;
     width: calc(100% - 25px);
   }
-  pre + .pilcrow, svg + .pilcrow {
+  :is(pre, svg) + .pilcrow {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
@@ -506,17 +530,11 @@ th, td {
 th {
   background-color: var(--line-color);
 }
-tr:nth-child(2n) > td {
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
   background-color: var(--background-color);
 }
-tr:nth-child(2n+1) > td {
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
-}
-thead+tbody > tr:nth-child(2n) > td {
-  background-color: var(--highlight-color);
-}
-thead+tbody > tr:nth-child(2n+1) > td {
-  background-color: var(--background-color);
 }
 table caption {
   margin: 0;
@@ -556,8 +574,9 @@ hr {
 }
 .bcp14 {
   font-variant: small-caps;
+  font-weight: 600;
+  font-size: 14.5px;
 }
-
 .role {
   font-variant: all-small-caps;
 }
@@ -796,7 +815,7 @@ hr.addr {
     margin: 0 0 0 4px;
     font-size: var(--small-font-size);
   }
-  #toc ul p, #toc ul li {
+  #toc ul :is(p, li) {
     margin: 2px 0;
     line-height: 22px;
   }
@@ -906,13 +925,13 @@ dl.dlNewline > dt {
 }
 
 /* Provide styling for table cell text alignment */
-table .text-left, table .text-left {
+table .text-left {
   text-align: left;
 }
-table .text-center, table .text-center {
+table .text-center {
   text-align: center;
 }
-table .text-right, table .text-right {
+table .text-right {
   text-align: right;
 }
 
@@ -979,12 +998,6 @@ address div.right {
   }
 
 }
-/* Tweak the bcp14 keyword presentation */
-.bcp14 {
-  font-variant: small-caps;
-  font-weight: bold;
-  font-size: 0.9em;
-}
 
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
@@ -999,19 +1012,20 @@ address div.right {
   --pilcrow-strong: #666;
   scrollbar-color: #777 #333;
 }
-/* Trick: a prefix match works because only black and white are allowed */
-svg [stroke="black"], svg [stroke^="#000"] {
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
   stroke: var(--text-color);
 }
-svg [stroke="white"], svg [stroke^="#fff"] {
+svg :is([stroke="white"], [stroke^="#fff"]) {
   stroke: var(--background-color);
 }
-svg [fill="black"], svg [fill^="#000"], svg :not([fill]) {
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
   fill: var(--text-color);
 }
-svg [stroke="fill"], svg [fill^="#fff"] {
+svg :is([stroke="fill"], [fill^="#fff"]) {
   fill: var(--background-color);
-}
 }
 </style>
 
@@ -1021,11 +1035,11 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">TUDA</td>
-<td class="right">January 2022</td>
+<td class="right">July 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Fuchs, et al.</td>
-<td class="center">Expires 16 July 2022</td>
+<td class="center">Expires 11 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1038,12 +1052,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-birkholz-rats-tuda-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-01-12" class="published">12 January 2022</time>
+<time datetime="2022-07-10" class="published">10 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-07-16">16 July 2022</time></dd>
+<dd class="expires"><time datetime="2023-01-11">11 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1109,7 +1123,7 @@ While a TPM is used as the corresponding root of trust in this specification, an
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1365,8 +1379,7 @@ Conversely, the omission of nonces in TUDA allows for explicit time-keeping wher
 Instead, a cryptographic binding of a trusted synchronization to a global timescale in the Evidence itself allows for Evidence that can prove past operational states of an Attester.
 To capture and support this concept, this document introduces the term Forward Authenticity.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-1.1-2">
-          <dt id="section-1.1-2.1">
-Forward Authenticity:  </dt>
+          <dt id="section-1.1-2.1">Forward Authenticity:</dt>
           <dd style="margin-left: 1.5em" id="section-1.1-2.2">
             <p id="section-1.1-2.2.1">A property of secure communication protocols, in which later compromise of the long-term keys of a data origin does not compromise past authentication of data from that origin.
 Forward Authenticity is achieved by timely recording of authenticity Claims from Target Environments (via "audit logs" during "audit sessions") that are authorized for this purpose and trustworthy (via endorsed roots of trusts, for example), in a time-frame much shorter than that expected for the compromise of the long-term keys.<a href="#section-1.1-2.2.1" class="pilcrow">¶</a></p>
@@ -1411,9 +1424,8 @@ Forward Authenticity is achieved by timely recording of authenticity Claims from
 <a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
 <p id="section-1.3-1">This document uses the terms defined in the RATS Architecture <span>[<a href="#I-D.ietf-rats-architecture" class="xref">I-D.ietf-rats-architecture</a>]</span> and by the RATS Reference Interaction Models <span>[<a href="#I-D.ietf-rats-reference-interaction-models" class="xref">I-D.ietf-rats-reference-interaction-models</a>]</span>.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
-<p id="section-1.3-2">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
-"MAY", and "OPTIONAL" in this document are to be interpreted as
+<p id="section-1.3-2">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-1.3-2" class="pilcrow">¶</a></p>
 </section>
@@ -1427,20 +1439,17 @@ appear in all capitals, as shown here.<a href="#section-1.3-2" class="pilcrow">�
       </h2>
 <p id="section-2-1">Based on the RATS Architecture, the processing of TPM generated Evidence can be separated in three activities.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2-2">
-        <dt id="section-2-2.1">
-Evidence Generation:  </dt>
+        <dt id="section-2-2.1">Evidence Generation:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.2">
           <p id="section-2-2.2.1">The retrieval of signed digests from an RTR based on a sequence of collected Claims about software component integrity (measurements).<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.3">
-Evidence Conveyance:  </dt>
+<dt id="section-2-2.3">Evidence Conveyance:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.4">
           <p id="section-2-2.4.1">The transfer of Evidence from the Attester to the Verifier via the Internet.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-2.5">
-Evidence Appraisal:  </dt>
+<dt id="section-2-2.5">Evidence Appraisal:</dt>
         <dd style="margin-left: 1.5em" id="section-2-2.6">
           <p id="section-2-2.6.1">The validation of Evidence signatures as well as the assessment of Claim values in Evidence by comparing them with Reference Values.<a href="#section-2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1453,7 +1462,7 @@ Evidence Appraisal:  </dt>
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-authenticity-of-evidence" class="section-name selfRef">Authenticity of Evidence</a>
         </h3>
 <p id="section-2.1-1">Remote attestation Evidence is composed of a set of Claims (assertions about the trustworthiness of an Attester's Target Environments) that is accompanied by a proof of its veracity -- typically a signature based on shielded, private, and potentially use-restricted key material used as an Authentication Secret as specified in section 6 of <span>[<a href="#I-D.ietf-rats-reference-interaction-models" class="xref">I-D.ietf-rats-reference-interaction-models</a>]</span> (or a secure channel as illustrated in <span>[<a href="#I-D.birkholz-rats-uccs" class="xref">I-D.birkholz-rats-uccs</a>]</span>).
-As key material alone is typically not self-descriptive with respect to its intended use (its semantics), the Evidence created via TUDA MUST be accompanied by two kinds of certificates that are cryptographically associated with a trust anchor (TA) <span>[<a href="#RFC4949" class="xref">RFC4949</a>]</span> via certification paths:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+As key material alone is typically not self-descriptive with respect to its intended use (its semantics), the Evidence created via TUDA <span class="bcp14">MUST</span> be accompanied by two kinds of certificates that are cryptographically associated with a trust anchor (TA) <span>[<a href="#RFC4949" class="xref">RFC4949</a>]</span> via certification paths:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.1-2.1">an Attestation Key (AK) Certificate (AK-Cert) that represents the attestation provenance of the Attesting Environment (see section 4.2. in <span>[<a href="#I-D.ietf-rats-architecture" class="xref">I-D.ietf-rats-architecture</a>]</span>) that generates Evidence, and<a href="#section-2.1-2.1" class="pilcrow">¶</a>
 </li>
@@ -1461,8 +1470,8 @@ As key material alone is typically not self-descriptive with respect to its inte
 </li>
         </ul>
 <p id="section-2.1-3">If a Verifier decides to trust the TA of both an AK-Cert and an EK-Cert presented by an Attester -- and thereby the included Claims about the trustworthiness of an Attester's Target Environments -- the Evidence generated by the Attester can be considered trustable and believable.
-Ultimately, all trustable and believable Evidence MUST be appraised by a Verifier in order to assess the trustworthiness of the corresponding Attester.
-Assertions represented via Claims MUST NOT be considered believable by themselves.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+Ultimately, all trustable and believable Evidence <span class="bcp14">MUST</span> be appraised by a Verifier in order to assess the trustworthiness of the corresponding Attester.
+Assertions represented via Claims <span class="bcp14">MUST NOT</span> be considered believable by themselves.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.1-4">In this document, Evidence is generated via TPMs that come with an AK-Cert and a EK-Cert as a basis for believable Evidence generation.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1476,7 +1485,7 @@ The underlying concept of "Attestation Logs" is elaborated on in Section 2.4.2. 
 This concept is implemented, for example, in the Linux kernel where it is called the Linux Integrity Measurement Architecture (IMA) <span>[<a href="#Safford" class="xref">Safford</a>]</span> and used to generates such a sequence of hash values.
 A representation for conveyance of corresponding event logs is described in the Canonical Event Log <span>[<a href="#CEL" class="xref">CEL</a>]</span> specification.
 Open source solutions, for example, based on <span>[<a href="#RFC5209" class="xref">RFC5209</a>]</span> use an IMA log to enable remote attestation <span>[<a href="#Steffens" class="xref">Steffens</a>]</span>.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.2-2">An Attester MUST generate such an event/measurement log.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">An Attester <span class="bcp14">MUST</span> generate such an event/measurement log.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="measurements-and-digests-generated-by-an-attester">
@@ -1499,28 +1508,28 @@ A TPM acts as a root of trust for reporting (RTR) by providing Quote (<span>[<a 
         <h3 id="name-attesting-environments-and-">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-attesting-environments-and-" class="section-name selfRef">Attesting Environments and Roots of Trust</a>
         </h3>
-<p id="section-2.4-1">The primitive operations used to generate an initial set of measurements at the beginning of an Attester's boot sequence MUST be provided by a Root of Trust for Measurement (RTM) that is a system component of the Attester.
-An RTM MUST be trusted via trust-relationships to TAs enabled by appropriate Endorsements (e.g.,EK-Certs).
-If a Verifier cannot trust an RTM, measurements based on values generated by the RTM MUST be considered invalid.
-At least one RTM MUST be accessible to the first Attesting Environment in Attester conducting Layered Attestation (see section 4.3. in <span>[<a href="#I-D.ietf-rats-architecture" class="xref">I-D.ietf-rats-architecture</a>]</span>).
-An RTM MAY aggregate and retain measurements until the first RTS becomes available in a Layered Attestation procedure -- instead of feeding measurements into an RTS, instantly.
-The Protection Capabilities of an RTM to also act as a temporary RTS MUST be trusted via trust-relationships to TAs enabled by appropriate Endorsements.
+<p id="section-2.4-1">The primitive operations used to generate an initial set of measurements at the beginning of an Attester's boot sequence <span class="bcp14">MUST</span> be provided by a Root of Trust for Measurement (RTM) that is a system component of the Attester.
+An RTM <span class="bcp14">MUST</span> be trusted via trust-relationships to TAs enabled by appropriate Endorsements (e.g.,EK-Certs).
+If a Verifier cannot trust an RTM, measurements based on values generated by the RTM <span class="bcp14">MUST</span> be considered invalid.
+At least one RTM <span class="bcp14">MUST</span> be accessible to the first Attesting Environment in Attester conducting Layered Attestation (see section 4.3. in <span>[<a href="#I-D.ietf-rats-architecture" class="xref">I-D.ietf-rats-architecture</a>]</span>).
+An RTM <span class="bcp14">MAY</span> aggregate and retain measurements until the first RTS becomes available in a Layered Attestation procedure -- instead of feeding measurements into an RTS, instantly.
+The Protection Capabilities of an RTM to also act as a temporary RTS <span class="bcp14">MUST</span> be trusted via trust-relationships to TAs enabled by appropriate Endorsements.
 System components supporting the use of a TPM typically include such an appropriate RTM.
 In general, feeding measurements from an initial RTM into a TPM is automated and separated from Protected Capabilities that provide Claims collection from Target Environments that are regular execution environments.
 A TPM providing the Protection Capabilities for an isolated and shielded location to feed measurements into (integrity and confidentiality) is an appropriate RTS for TUDA.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
-<p id="section-2.4-2">The primitive operations used to store and chain measurements via a rolling hash function MUST be provided by an appropriate root of trust for storage (RTS) that is a system component of the Attester.
-An RTS MUST be trusted via trust-relationships to TAs enabled by appropriate Endorsements (e.g.,EK-Certs).
-If a Verifier cannot trust an RTS, Evidence generated based on digest values acquired from the RTS MUST be considered invalid.
-An RTS MUST be accessible to all Attesting Environments that are chained in a Layered Attestation procedure.
+<p id="section-2.4-2">The primitive operations used to store and chain measurements via a rolling hash function <span class="bcp14">MUST</span> be provided by an appropriate root of trust for storage (RTS) that is a system component of the Attester.
+An RTS <span class="bcp14">MUST</span> be trusted via trust-relationships to TAs enabled by appropriate Endorsements (e.g.,EK-Certs).
+If a Verifier cannot trust an RTS, Evidence generated based on digest values acquired from the RTS <span class="bcp14">MUST</span> be considered invalid.
+An RTS <span class="bcp14">MUST</span> be accessible to all Attesting Environments that are chained in a Layered Attestation procedure.
 A TPM providing the primitive operation for Extend is an appropriate RTM for TUDA.<a href="#section-2.4-2" class="pilcrow">¶</a></p>
-<p id="section-2.4-3">The primitive operations used to generate Evidence based on digests MUST be provided by roots of trust for reporting (RTR) that are system components of the Attester.
-An RTR MUST be be trusted via trust-relationships to TAs enabled by appropriate Endorsements (e.g.,EK-Certs).
-If a Verifier cannot trust an RTR, Evidence generated by the RTR MUST be considered invalid.
+<p id="section-2.4-3">The primitive operations used to generate Evidence based on digests <span class="bcp14">MUST</span> be provided by roots of trust for reporting (RTR) that are system components of the Attester.
+An RTR <span class="bcp14">MUST</span> be be trusted via trust-relationships to TAs enabled by appropriate Endorsements (e.g.,EK-Certs).
+If a Verifier cannot trust an RTR, Evidence generated by the RTR <span class="bcp14">MUST</span> be considered invalid.
 A TPM providing the primitive operations for Quote is an appropriate RTR for TUDA.
-In a Composite Device (see Section 3.5. in <span>[<a href="#I-D.ietf-rats-architecture" class="xref">I-D.ietf-rats-architecture</a>]</span> conducting a Layered Attestation procedure, Attesting Environments MAY not be TPMs.
-At least one Attesting Environment MUST be a TPM.
-At least one TPM MUST act as an RTR.
-Attesting Environments that are not TPMs MUST NOT act as an RTR.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
+In a Composite Device (see Section 3.5. in <span>[<a href="#I-D.ietf-rats-architecture" class="xref">I-D.ietf-rats-architecture</a>]</span> conducting a Layered Attestation procedure, Attesting Environments <span class="bcp14">MAY</span> not be TPMs.
+At least one Attesting Environment <span class="bcp14">MUST</span> be a TPM.
+At least one TPM <span class="bcp14">MUST</span> act as an RTR.
+Attesting Environments that are not TPMs <span class="bcp14">MUST NOT</span> act as an RTR.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
 <p id="section-2.4-4">A concise definition of the terms RTM, RTS, and RTR can be found in the Trusted Computing Group (TCG) Glossary <span>[<a href="#TCGGLOSS" class="xref">TCGGLOSS</a>]</span>.
 An RTS and an RTR are often tightly coupled.
 In TUDA, a Trusted Platform Module (TPM, see <span>[<a href="#TPM12" class="xref">TPM12</a>]</span> and <span>[<a href="#TPM2" class="xref">TPM2</a>]</span>) takes on the roles of an RTS and an RTR.
@@ -1539,13 +1548,13 @@ Parallelization occurs, for example, between different isolated execution enviro
 In order to enable the appraisal of Evidence in cases where sequence of measurement varies, a corresponding event log that records all measurements in sequence, such as the IMA log, has to be conveyed next to the Evidence as depicted in section 8.2. in <span>[<a href="#I-D.ietf-rats-reference-interaction-models" class="xref">I-D.ietf-rats-reference-interaction-models</a>]</span>.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
 <p id="section-2.5-2">In contrast to Evidence, event logs do not necessarily have to be integrity protected or tamper-evident.
 Event logs are conveyed to a Verifier in order to compute the reference values required for comparison with digest values (output of TPM Quote operations).
-While digest values MUST constitute Evidence, measurements in event logs MAY be part of Evidence, but do not have to be MAY be conveyed separately.
+While digest values <span class="bcp14">MUST</span> constitute Evidence, measurements in event logs <span class="bcp14">MAY</span> be part of Evidence, but do not have to be <span class="bcp14">MAY</span> be conveyed separately.
 If the values in event logs or their sequence are tampered with before or during conveyance from an Attester to a Verifier, the corresponding Evidence Appraisal fails.
 While this dependency reflects the intended behavior of RATS, integrity protected or tamper-evident can be beneficial or convenient in some usage scenarios.
 Additionally, event logs my allow insights into the composition of an Attester and typically come with confidentiality requirements.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
-<p id="section-2.5-3">In order to compute reference values to compare digest Claims in Evidence with, a Verifier MUST be able to replay the rolling hash function of the Extend operation provided by a TPM (see Section 2.4.2. in <span>[<a href="#I-D.fedorkow-rats-network-device-attestation" class="xref">I-D.fedorkow-rats-network-device-attestation</a>]</span>).<a href="#section-2.5-3" class="pilcrow">¶</a></p>
+<p id="section-2.5-3">In order to compute reference values to compare digest Claims in Evidence with, a Verifier <span class="bcp14">MUST</span> be able to replay the rolling hash function of the Extend operation provided by a TPM (see Section 2.4.2. in <span>[<a href="#I-D.fedorkow-rats-network-device-attestation" class="xref">I-D.fedorkow-rats-network-device-attestation</a>]</span>).<a href="#section-2.5-3" class="pilcrow">¶</a></p>
 <p id="section-2.5-4">A Verifier has to replay the event log using its own extend operation with an identical rolling hash function in order to generate reference values as outlined in section 2.4.1. of <span>[<a href="#I-D.fedorkow-rats-network-device-attestation" class="xref">I-D.fedorkow-rats-network-device-attestation</a>]</span>.
-During reply, the validity of each event log record MUST be appraised individually by the Verifier in order to infer if each started software component satisfies integrity requirements.
+During reply, the validity of each event log record <span class="bcp14">MUST</span> be appraised individually by the Verifier in order to infer if each started software component satisfies integrity requirements.
 These appraisal procedures require Reference Integrity Measurements/Manifests (RIM) as are provided via <span>[<a href="#I-D.birkholz-rats-coswid-rim" class="xref">I-D.birkholz-rats-coswid-rim</a>]</span> or <span>[<a href="#TCGRIM" class="xref">TCGRIM</a>]</span>.
 Each RIM includes Reference Values that are nominal reference hash values for sets of software components.
 The Reference Values can be compared with hash values about executed software components included in an event log.
@@ -1576,7 +1585,7 @@ Corresponding procedures that enable a Verifier to acquire Reference Values are 
         <h3 id="name-attesting-environment-requi">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-attesting-environment-requi" class="section-name selfRef">Attesting Environment Requirements</a>
         </h3>
-<p id="section-3.1-1">An Attesting Environment that generates Evidence in TUDA MUST support three specific Protected Capabilities:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1">An Attesting Environment that generates Evidence in TUDA <span class="bcp14">MUST</span> support three specific Protected Capabilities:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.1-2.1">Platform Configuration Registers (PCR) that can extend measurements consecutively and represent the sequence of measurements as a single digest,<a href="#section-3.1-2.1" class="pilcrow">¶</a>
 </li>
@@ -1594,7 +1603,7 @@ Corresponding procedures that enable a Verifier to acquire Reference Values are 
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-handle-distributor-requirem" class="section-name selfRef">Handle Distributor Requirements: Time Stamp Authority</a>
         </h3>
 <p id="section-3.2-1">Both Evidence generation and Evidence appraisal require a Handle Distributor that can take on the role of a trusted Time Stamp Authority (TSA) as an additional third party.
-Time Stamp Tokens (TST) included in Handles MUST be generated by Time Stamp Authority based on <span>[<a href="#RFC3161" class="xref">RFC3161</a>]</span> that acts as the Handle Distributor.
+Time Stamp Tokens (TST) included in Handles <span class="bcp14">MUST</span> be generated by Time Stamp Authority based on <span>[<a href="#RFC3161" class="xref">RFC3161</a>]</span> that acts as the Handle Distributor.
 The combination of a local source of time provided by a TPM (on the Attester) and the TST provided by the Handle Distributor (to both the Attester and the Verifier) enable an appropriate proof of freshness.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1607,13 +1616,15 @@ The combination of a local source of time provided by a TPM (on the Attester) an
       </h2>
 <p id="section-4-1">TUDA defines a set of information elements (IE) that represent a set of Claims, are generated and stored on the Attester, and are intended to be transferred to the Verifier in order to enable the appraisal of Evidence. Each TUDA IE:<a href="#section-4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4-2.1">MUST be encoded in the Concise Binary Object Representation (CBOR <span>[<a href="#RFC8949" class="xref">RFC8949</a>]</span>) to minimize the volume of data in motion. In this document, the composition of the CBOR data items that represent IE is described using the Concise Data Definition Language, CDDL <span>[<a href="#RFC8610" class="xref">RFC8610</a>]</span>.<a href="#section-4-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-4-2.1">
+          <span class="bcp14">MUST</span> be encoded in the Concise Binary Object Representation (CBOR <span>[<a href="#RFC8949" class="xref">RFC8949</a>]</span>) to minimize the volume of data in motion. In this document, the composition of the CBOR data items that represent IE is described using the Concise Data Definition Language, CDDL <span>[<a href="#RFC8610" class="xref">RFC8610</a>]</span>.<a href="#section-4-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-4-2.2">that requires a certain freshness SHOULD only be re-generated when out-dated (not fresh, but stale), which reduces the overall resources required from the Attester, including the usage of a TPM's resources (re-generation of IE is determined by their age or by specific state changes on the Attester, e.g., due to a reboot-cycle)<a href="#section-4-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-4-2.2">that requires a certain freshness <span class="bcp14">SHOULD</span> only be re-generated when out-dated (not fresh, but stale), which reduces the overall resources required from the Attester, including the usage of a TPM's resources (re-generation of IE is determined by their age or by specific state changes on the Attester, e.g., due to a reboot-cycle)<a href="#section-4-2.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-4-2.3">SHOULD only be transferred when required, which reduces the amount of data in motion necessary to conduct remote attestation significantly (only IE that have changed since their last conveyance have to be transferred)<a href="#section-4-2.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-4-2.3">
+          <span class="bcp14">SHOULD</span> only be transferred when required, which reduces the amount of data in motion necessary to conduct remote attestation significantly (only IE that have changed since their last conveyance have to be transferred)<a href="#section-4-2.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-4-2.4">that requires a certain freshness SHOULD be reused for multiple remote attestation procedures in the limits of its corresponding freshness-window, further reducing the load imposed on the Attester and corresponding TPMs.<a href="#section-4-2.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-4-2.4">that requires a certain freshness <span class="bcp14">SHOULD</span> be reused for multiple remote attestation procedures in the limits of its corresponding freshness-window, further reducing the load imposed on the Attester and corresponding TPMs.<a href="#section-4-2.4" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
@@ -1659,14 +1670,12 @@ The combination of a local source of time provided by a TPM (on the Attester) an
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-tpm-specific-terms" class="section-name selfRef">TPM Specific Terms</a>
         </h3>
 <span class="break"></span><dl class="dlParallel" id="section-5.1-1">
-          <dt id="section-5.1-1.1">
-PCR:  </dt>
+          <dt id="section-5.1-1.1">PCR:</dt>
           <dd style="margin-left: 1.5em" id="section-5.1-1.2">
             <p id="section-5.1-1.2.1">A Platform Configuration Register that is part of the TPM and is used to securely store and report measurements about security posture<a href="#section-5.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.1-1.3">
-PCR-Hash:  </dt>
+<dt id="section-5.1-1.3">PCR-Hash:</dt>
           <dd style="margin-left: 1.5em" id="section-5.1-1.4">
             <p id="section-5.1-1.4.1">A hash value of the security posture measurements stored in a TPM PCR (e.g. regarding running software instances) represented as a byte-string<a href="#section-5.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1680,14 +1689,12 @@ PCR-Hash:  </dt>
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-certificates" class="section-name selfRef">Certificates</a>
         </h3>
 <span class="break"></span><dl class="dlParallel" id="section-5.2-1">
-          <dt id="section-5.2-1.1">
-HD-CA:  </dt>
+          <dt id="section-5.2-1.1">HD-CA:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-1.2">
             <p id="section-5.2-1.2.1">The Certificate Authority that provides the certificate for the TSA role of a Handle Distributor (HD)<a href="#section-5.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.2-1.3">
-AIK-CA:  </dt>
+<dt id="section-5.2-1.3">AIK-CA:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-1.4">
             <p id="section-5.2-1.4.1">The Certificate Authority that provides the certificate for the AK of the TPM. This is the client platform credential for this protocol. It is a placeholder for a specific CA and AK-Cert is a placeholder for the corresponding certificate, depending on what protocol was used. The specific protocols are out of scope for this document, see also <span>[<a href="#AIK-Enrollment" class="xref">AIK-Enrollment</a>]</span> and <span>[<a href="#IEEE802.1AR" class="xref">IEEE802.1AR</a>]</span>.<a href="#section-5.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1704,26 +1711,22 @@ AIK-CA:  </dt>
       </h2>
 <p id="section-6-1">Time-Based Uni-Directional Attestation consists of the following seven information elements:<a href="#section-6-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-6-2">
-        <dt id="section-6-2.1">
-Handle Distributor Certificate:  </dt>
+        <dt id="section-6-2.1">Handle Distributor Certificate:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.2">
           <p id="section-6-2.2.1">The certificate of the Handle Distributor that takes on the role of TSA. The Handle Distributor certificate is used in a subsequent synchronization protocol tokens. This certificate is signed by the HD-CA.<a href="#section-6-2.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-6-2.3">
-AK Certificate:  </dt>
+<dt id="section-6-2.3">AK Certificate:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.4">
           <p id="section-6-2.4.1">A certificate about the Attestation Key (AIK) used. An AK-Cert may be an <span>[<a href="#IEEE802.1AR" class="xref">IEEE802.1AR</a>]</span> IDevID or LDevID, depending on their setting of the corresponding identity property (<span>[<a href="#AIK-Credential" class="xref">AIK-Credential</a>]</span>, <span>[<a href="#AIK-Enrollment" class="xref">AIK-Enrollment</a>]</span>; see <a href="#aik" class="xref">Appendix D.2.1</a>).<a href="#section-6-2.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-6-2.5">
-Synchronization Token:  </dt>
+<dt id="section-6-2.5">Synchronization Token:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.6">
           <p id="section-6-2.6.1">The reference frame for Evidence is provided by the relative timestamps generated by the TPM. In order to put Evidence into relation with a Real Time Clock (RTC), it is necessary to provide a cryptographic synchronization between these trusted relative timestamps and the regular RTC that is a hardware component of the Attester. To do so, trustable timestamps are acquired from a Handle Distributor.<a href="#section-6-2.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-6-2.7">
-Restriction Info:  </dt>
+<dt id="section-6-2.7">Restriction Info:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.8">
           <p id="section-6-2.8.1">Evidence Generation relies on the capability of the Rot to operate on restricted keys. Whenever the PCR values of an Attesting Environment change, a new restricted key is created that can only be operated as long as the PCRs remain in their current state.<a href="#section-6-2.8.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1733,21 +1736,18 @@ Restriction Info:  </dt>
           <p id="section-6-2.10.1">In order to prove to the Verifier that this restricted temporary key actually has these properties and also to provide the PCR value that it is restricted, the corresponding signing capabilities of the RoT are used. The TPM creates a signed certificate using the AK about the newly created restricted key.<a href="#section-6-2.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-6-2.11">
-Measurement Log:  </dt>
+<dt id="section-6-2.11">Measurement Log:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.12">
           <p id="section-6-2.12.1">A Verifier requires the means to derive the PCRs' values in order to appraise the trustworthiness of an Attester. As such, a list of those elements that were extended into the PCRs is reported. For certain environments, this step may be optional if a list of valid PCR configurations (in the form of RIM available to the Verifier) exists and no measurement log is required.<a href="#section-6-2.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-6-2.13">
-Implicit Evidence:  </dt>
+<dt id="section-6-2.13">Implicit Evidence:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.14">
           <p id="section-6-2.14.1">The actual Evidence is then based on a signed timestamp provided by the RoT using the restricted temporary key that was certified in the steps above. The signed timestamp generated provides the trustable assertion that at this point in time (with respect to the relative time of the TPM
 s tick counter) a certain configuration existed (namely the PCR values associated with the restricted key). In combination with the synchronization token this timestamp represented in relative time can then be related to the real-time clock.<a href="#section-6-2.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-6-2.15">
-Concise SWID tags:  </dt>
+<dt id="section-6-2.15">Concise SWID tags:</dt>
         <dd style="margin-left: 1.5em" id="section-6-2.16">
           <p id="section-6-2.16.1">As an option to better assess the trustworthiness of an Attester, a Verifier can request the reference hashes (RIM, sometimes called golden measurements, known-good-values, or nominal values) of all started software components to compare them with the entries in a measurement log. References hashes regarding installed (and therefore running) software can be provided by the manufacturer via SWID tags. SWID tags are provided by the Attester using the Concise SWID representation <span>[<a href="#I-D.ietf-sacm-coswid" class="xref">I-D.ietf-sacm-coswid</a>]</span> and bundled into a collection (a RIM Manifest <span>[<a href="#I-D.birkholz-rats-coswid-rim" class="xref">I-D.birkholz-rats-coswid-rim</a>]</span>).<a href="#section-6-2.16.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1795,55 +1795,106 @@ push information to be used in an audit-log, a time-frame of approximately one u
 <p id="section-6.1-7">The following diagram is based on the reference interaction model found in section 8.1. of <span>[<a href="#I-D.ietf-rats-reference-interaction-models" class="xref">I-D.ietf-rats-reference-interaction-models</a>]</span> and is enriched with the IE update cycles defined in this section.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
 <span id="name-example-sequence-of-events"></span><div id="SequenceExample">
 <figure id="figure-1">
-          <div class="alignLeft art-text artwork" id="section-6.1-8.1">
-<pre>
-.----------.                                                .----------.
-| Attester |                                                | Verifier |
-'----------'                                                '----------'
-     |                                                            |
-   boot                                                           |
-     |                                                            |
-valueGeneration(targetEnvironment)                                |
-     | =&gt; claims                                                  |
-     |                   .--------------------.                   |
-     | &lt;----------handle |                    |                   |
-     |                   | Handle Distributor |                   |
-     |                   |                    | handle----------&gt; |
-     |                   '--------------------'                   |
-syncTokenGeneration                                               |
-     | =&gt; syncToken                                               |
-     |                                                            |
-restrictedKeyGeneration                                           |
-restrictedKeyCertify                                              |
-     |                                                            |
-evidenceGeneration(handle, authSecIDs, collectedClaims)           |
-     | =&gt; evidence                                                |
-     |                                                            |
-     | pushAKCert ----------------------------------------------&gt; |
-     | pushSyncToken -------------------------------------------&gt; |
-     | pushCertifyInfo -----------------------------------------&gt; |
-     | pushEventLog --------------------------------------------&gt; |
-     | pushEvidenceon ------------------------------------------&gt; |
-     |                                                            |
-     |                  evidenceAppraisal(evidence, eventLog, refClaims)
-     |                                       attestationResult &lt;= |
-     ~                                                            ~
-  pcr-change                                                      |
-     |                                                            |
-restrictedKeyGeneration                                           |
-restrictedKeyCertify                                              |
-     |                                                            |
-evidenceGeneration(handle, authSecIDs, collectedClaims)           |
-     | =&gt; evidence                                                |
-     |                                                            |
-     | pushCertifyInfo -----------------------------------------&gt; |
-     | pushEventLog --------------------------------------------&gt; |
-     | pushEvidenceon ------------------------------------------&gt; |
-     |                                                            |
-     |                  evidenceAppraisal(evidence, eventLog, refClaims)
-     |                                       attestationResult &lt;= |
-     |                                                            |
-</pre>
+          <div id="section-6.1-8.1">
+            <div class="alignLeft art-svg artwork" id="section-6.1-8.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="768" width="584" viewBox="0 0 584 768" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px">
+                <path d="M 8,32 L 8,64" fill="none" stroke="black"></path>
+                <path d="M 48,144 L 48,224" fill="none" stroke="black"></path>
+                <path d="M 48,256 L 48,272" fill="none" stroke="black"></path>
+                <path d="M 48,352 L 48,496" fill="none" stroke="black"></path>
+                <path d="M 48,624 L 48,752" fill="none" stroke="black"></path>
+                <path d="M 96,32 L 96,64" fill="none" stroke="black"></path>
+                <path d="M 208,160 L 208,224" fill="none" stroke="black"></path>
+                <path d="M 376,160 L 376,224" fill="none" stroke="black"></path>
+                <path d="M 488,32 L 488,64" fill="none" stroke="black"></path>
+                <path d="M 536,72 L 536,464" fill="none" stroke="black"></path>
+                <path d="M 536,528 L 536,704" fill="none" stroke="black"></path>
+                <path d="M 536,736 L 536,752" fill="none" stroke="black"></path>
+                <path d="M 576,32 L 576,64" fill="none" stroke="black"></path>
+                <path d="M 8,32 L 96,32" fill="none" stroke="black"></path>
+                <path d="M 488,32 L 576,32" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 96,64" fill="none" stroke="black"></path>
+                <path d="M 488,64 L 576,64" fill="none" stroke="black"></path>
+                <path d="M 208,160 L 376,160" fill="none" stroke="black"></path>
+                <path d="M 64,176 L 144,176" fill="none" stroke="black"></path>
+                <path d="M 440,208 L 520,208" fill="none" stroke="black"></path>
+                <path d="M 208,224 L 376,224" fill="none" stroke="black"></path>
+                <path d="M 152,384 L 520,384" fill="none" stroke="black"></path>
+                <path d="M 176,400 L 520,400" fill="none" stroke="black"></path>
+                <path d="M 192,416 L 520,416" fill="none" stroke="black"></path>
+                <path d="M 168,432 L 520,432" fill="none" stroke="black"></path>
+                <path d="M 184,448 L 520,448" fill="none" stroke="black"></path>
+                <path d="M 192,656 L 520,656" fill="none" stroke="black"></path>
+                <path d="M 168,672 L 520,672" fill="none" stroke="black"></path>
+                <path d="M 184,688 L 520,688" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="528,688 516,682.4 516,693.6" fill="black" transform="rotate(0,520,688)"></polygon>
+                <polygon class="arrowhead" points="528,672 516,666.4 516,677.6" fill="black" transform="rotate(0,520,672)"></polygon>
+                <polygon class="arrowhead" points="528,656 516,650.4 516,661.6" fill="black" transform="rotate(0,520,656)"></polygon>
+                <polygon class="arrowhead" points="528,448 516,442.4 516,453.6" fill="black" transform="rotate(0,520,448)"></polygon>
+                <polygon class="arrowhead" points="528,432 516,426.4 516,437.6" fill="black" transform="rotate(0,520,432)"></polygon>
+                <polygon class="arrowhead" points="528,416 516,410.4 516,421.6" fill="black" transform="rotate(0,520,416)"></polygon>
+                <polygon class="arrowhead" points="528,400 516,394.4 516,405.6" fill="black" transform="rotate(0,520,400)"></polygon>
+                <polygon class="arrowhead" points="528,384 516,378.4 516,389.6" fill="black" transform="rotate(0,520,384)"></polygon>
+                <polygon class="arrowhead" points="528,208 516,202.4 516,213.6" fill="black" transform="rotate(0,520,208)"></polygon>
+                <polygon class="arrowhead" points="72,176 60,170.4 60,181.6" fill="black" transform="rotate(180,64,176)"></polygon>
+                <g class="text">
+                  <text x="52" y="52">Attester</text>
+                  <text x="532" y="52">Verifier</text>
+                  <text x="48" y="84">|</text>
+                  <text x="44" y="100">boot</text>
+                  <text x="48" y="116">|</text>
+                  <text x="140" y="132">valueGeneration(targetEnvironment)</text>
+                  <text x="68" y="148">=&gt;</text>
+                  <text x="108" y="148">claims</text>
+                  <text x="172" y="180">handle</text>
+                  <text x="244" y="196">Handle</text>
+                  <text x="320" y="196">Distributor</text>
+                  <text x="412" y="212">handle</text>
+                  <text x="80" y="244">syncTokenGeneration</text>
+                  <text x="68" y="260">=&gt;</text>
+                  <text x="120" y="260">syncToken</text>
+                  <text x="96" y="292">restrictedKeyGeneration</text>
+                  <text x="84" y="308">restrictedKeyCertify</text>
+                  <text x="48" y="324">|</text>
+                  <text x="108" y="340">evidenceGeneration(handle,</text>
+                  <text x="264" y="340">authSecIDs,</text>
+                  <text x="380" y="340">collectedClaims)</text>
+                  <text x="68" y="356">=&gt;</text>
+                  <text x="116" y="356">evidence</text>
+                  <text x="100" y="388">pushAKCert</text>
+                  <text x="112" y="404">pushSyncToken</text>
+                  <text x="120" y="420">pushCertifyInfo</text>
+                  <text x="108" y="436">pushEventLog</text>
+                  <text x="116" y="452">pushEvidenceon</text>
+                  <text x="304" y="484">evidenceAppraisal(evidence,</text>
+                  <text x="456" y="484">eventLog,</text>
+                  <text x="540" y="484">refClaims)</text>
+                  <text x="432" y="500">attestationResult</text>
+                  <text x="516" y="500">&lt;=</text>
+                  <text x="536" y="500">|</text>
+                  <text x="48" y="516">~</text>
+                  <text x="536" y="516">~</text>
+                  <text x="60" y="532">pcr-change</text>
+                  <text x="48" y="548">|</text>
+                  <text x="96" y="564">restrictedKeyGeneration</text>
+                  <text x="84" y="580">restrictedKeyCertify</text>
+                  <text x="48" y="596">|</text>
+                  <text x="108" y="612">evidenceGeneration(handle,</text>
+                  <text x="264" y="612">authSecIDs,</text>
+                  <text x="380" y="612">collectedClaims)</text>
+                  <text x="68" y="628">=&gt;</text>
+                  <text x="116" y="628">evidence</text>
+                  <text x="120" y="660">pushCertifyInfo</text>
+                  <text x="108" y="676">pushEventLog</text>
+                  <text x="116" y="692">pushEvidenceon</text>
+                  <text x="304" y="724">evidenceAppraisal(evidence,</text>
+                  <text x="456" y="724">eventLog,</text>
+                  <text x="540" y="724">refClaims)</text>
+                  <text x="432" y="740">attestationResult</text>
+                  <text x="516" y="740">&lt;=</text>
+                </g>
+              </svg><a href="#section-6.1-8.1.1" class="pilcrow">¶</a>
+</div>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
 <a href="#name-example-sequence-of-events" class="selfRef">Example sequence of events</a>
@@ -1923,17 +1974,9 @@ type definitions.<a href="#section-8-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Shelby, Z.</span>, <span class="refTitle">"Constrained RESTful Environments (CoRE) Link Format"</span>, <span class="seriesInfo">RFC 6690</span>, <span class="seriesInfo">DOI 10.17487/RFC6690</span>, <time datetime="2012-08" class="refDate">August 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6690">https://www.rfc-editor.org/rfc/rfc6690</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC7230">[RFC7230]</dt>
-        <dd>
-<span class="refAuthor">Fielding, R., Ed.</span> and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing"</span>, <span class="seriesInfo">RFC 7230</span>, <span class="seriesInfo">DOI 10.17487/RFC7230</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7230">https://www.rfc-editor.org/rfc/rfc7230</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7252">[RFC7252]</dt>
         <dd>
 <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Hartke, K.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7252">https://www.rfc-editor.org/rfc/rfc7252</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7540">[RFC7540]</dt>
-        <dd>
-<span class="refAuthor">Belshe, M.</span>, <span class="refAuthor">Peon, R.</span>, and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7540">https://www.rfc-editor.org/rfc/rfc7540</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8040">[RFC8040]</dt>
         <dd>
@@ -1952,8 +1995,16 @@ type definitions.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"URI Design and Ownership"</span>, <span class="seriesInfo">BCP 190</span>, <span class="seriesInfo">RFC 8820</span>, <span class="seriesInfo">DOI 10.17487/RFC8820</span>, <time datetime="2020-06" class="refDate">June 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8820">https://www.rfc-editor.org/rfc/rfc8820</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8949">[RFC8949]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">STD 94</span>, <span class="seriesInfo">RFC 8949</span>, <span class="seriesInfo">DOI 10.17487/RFC8949</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8949">https://www.rfc-editor.org/rfc/rfc8949</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9112">[RFC9112]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP/1.1"</span>, <span class="seriesInfo">STD 99</span>, <span class="seriesInfo">RFC 9112</span>, <span class="seriesInfo">DOI 10.17487/RFC9112</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9112">https://www.rfc-editor.org/rfc/rfc9112</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9113">[RFC9113]</dt>
+      <dd>
+<span class="refAuthor">Thomson, M., Ed.</span> and <span class="refAuthor">C. Benfield, Ed.</span>, <span class="refTitle">"HTTP/2"</span>, <span class="seriesInfo">RFC 9113</span>, <span class="seriesInfo">DOI 10.17487/RFC9113</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9113">https://www.rfc-editor.org/rfc/rfc9113</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1992,15 +2043,15 @@ type definitions.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-architecture">[I-D.ietf-rats-architecture]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote Attestation Procedures Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-architecture-14</span>, <time datetime="2021-12-09" class="refDate">9 December 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-architecture-14">https://datatracker.ietf.org/doc/html/draft-ietf-rats-architecture-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote Attestation Procedures Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-architecture-18</span>, <time datetime="2022-06-14" class="refDate">14 June 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-architecture-18">https://datatracker.ietf.org/doc/html/draft-ietf-rats-architecture-18</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-reference-interaction-models">[I-D.ietf-rats-reference-interaction-models]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Eckel, M.</span>, <span class="refAuthor">Pan, W.</span>, and <span class="refAuthor">E. Voit</span>, <span class="refTitle">"Reference Interaction Models for Remote Attestation Procedures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-reference-interaction-models-04</span>, <time datetime="2021-07-26" class="refDate">26 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-reference-interaction-models-04">https://datatracker.ietf.org/doc/html/draft-ietf-rats-reference-interaction-models-04</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Eckel, M.</span>, <span class="refAuthor">Pan, W.</span>, and <span class="refAuthor">E. Voit</span>, <span class="refTitle">"Reference Interaction Models for Remote Attestation Procedures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-reference-interaction-models-05</span>, <time datetime="2022-01-26" class="refDate">26 January 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-reference-interaction-models-05">https://datatracker.ietf.org/doc/html/draft-ietf-rats-reference-interaction-models-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-sacm-coswid">[I-D.ietf-sacm-coswid]</dt>
         <dd>
-<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Fitzgerald-McKay, J.</span>, <span class="refAuthor">Schmidt, C.</span>, and <span class="refAuthor">D. Waltermire</span>, <span class="refTitle">"Concise Software Identification Tags"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-sacm-coswid-19</span>, <time datetime="2021-10-20" class="refDate">20 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-sacm-coswid-19">https://datatracker.ietf.org/doc/html/draft-ietf-sacm-coswid-19</a>&gt;</span>. </dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Fitzgerald-McKay, J.</span>, <span class="refAuthor">Schmidt, C.</span>, and <span class="refAuthor">D. Waltermire</span>, <span class="refTitle">"Concise Software Identification Tags"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-sacm-coswid-21</span>, <time datetime="2022-03-07" class="refDate">7 March 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-sacm-coswid-21">https://datatracker.ietf.org/doc/html/draft-ietf-sacm-coswid-21</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IEEE1609">[IEEE1609]</dt>
         <dd>
@@ -2106,7 +2157,7 @@ type definitions.<a href="#section-8-1" class="pilcrow">¶</a></p>
 Representations of resources for each of these media types can be
 retrieved from URIs that are defined by the respective servers <span>[<a href="#RFC8820" class="xref">RFC8820</a>]</span>.
 As can be derived from the URI, the actual retrieval is via one of the HTTPs
-(<span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>, <span>[<a href="#RFC7540" class="xref">RFC7540</a>]</span>) or CoAP <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span>.  How a client obtains
+(<span>[<a href="#RFC9112" class="xref">RFC9112</a>]</span>, <span>[<a href="#RFC9113" class="xref">RFC9113</a>]</span>) or CoAP <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span>.  How a client obtains
 these URIs is dependent on the application; e.g., CoRE Web links <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span>
 can be used to obtain the relevant URIs from the self-description of a
 server, or they could be prescribed by a RESTCONF data model <span>[<a href="#RFC8040" class="xref">RFC8040</a>]</span>.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
@@ -2313,7 +2364,7 @@ context information for the TUDA attestation process.<a href="#appendix-B.4-1" c
 <a href="#appendix-B.5" class="section-number selfRef">B.5. </a><a href="#name-definition-of-tuda-mib" class="section-name selfRef">Definition of TUDA MIB</a>
         </h3>
 <div id="appendix-B.5-1">
-<pre class="lang-mib sourcecode">&lt;CODE BEGINS&gt;
+<pre class="breakable lang-mib sourcecode">&lt;CODE BEGINS&gt;
 TUDA-V1-ATTESTATION-MIB DEFINITIONS ::= BEGIN
 
 IMPORTS
@@ -3114,10 +3165,13 @@ END
 <a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-yang-realization" class="section-name selfRef">YANG Realization</a>
       </h2>
 <div id="appendix-C-1">
-<pre class="lang-yang sourcecode">&lt;CODE BEGINS&gt;
+<pre class="breakable lang-yang sourcecode">&lt;CODE BEGINS&gt;
+=============== NOTE: '\' line wrapping per RFC 8792 ================
+
 module TUDA-V1-ATTESTATION-MIB {
 
-  namespace "urn:ietf:params:xml:ns:yang:smiv2:TUDA-V1-ATTESTATION-MIB";
+  namespace "urn:ietf:params:xml:ns:yang:smiv2:TUDA-V1-ATTESTATION-\
+                                                                MIB";
   prefix "tuda-v1";
 
   import SNMP-FRAMEWORK-MIB { prefix "snmp-framework"; }
@@ -3295,8 +3349,10 @@ module TUDA-V1-ATTESTATION-MIB {
         config false;
         description
          "Middle index of this AIK Certificate fragment.
-          Ordinal of this AIK Certificate in this chain, where the AIK
-          Certificate itself has an ordinal of '1' and higher ordinals
+          Ordinal of this AIK Certificate in this chain, where the \
+                                                                  AIK
+          Certificate itself has an ordinal of '1' and higher \
+                                                             ordinals
           go *up* the certificate chain to the Root CA.
 
           DEFVAL intentionally omitted - index object.";
@@ -3370,8 +3426,10 @@ module TUDA-V1-ATTESTATION-MIB {
         config false;
         description
          "Middle index of this TSA Certificate fragment.
-          Ordinal of this TSA Certificate in this chain, where the TSA
-          Certificate itself has an ordinal of '1' and higher ordinals
+          Ordinal of this TSA Certificate in this chain, where the \
+                                                                  TSA
+          Certificate itself has an ordinal of '1' and higher \
+                                                             ordinals
           go *up* the certificate chain to the Root CA.
 
           DEFVAL intentionally omitted - index object.";
@@ -4126,7 +4184,7 @@ the newly created restricted key.<a href="#appendix-D.2.3-2" class="pilcrow">¶<
 <span id="name-tuda-key-element-in-cddl"></span><div id="key-token">
 <figure id="figure-6">
             <div id="appendix-D.2.3-5.1">
-<pre class="lang-cddl sourcecode">
+<pre class="breakable lang-cddl sourcecode">
 TUDA-RestrictionInfo = [Composite,
                         restrictedKey_Pub: Pubkey,
                         CertifyInfo]
@@ -4166,7 +4224,7 @@ TPM-PCR-INFO = [
 ]
 
 TPM-KEY-PARMS = [
-  ; algorithmID: uint, ; &lt;= 4 bytes -- not encoded, constant for TPM1.2
+  ; algorithmID: uint, ; &lt;= 4 bytes, not encoded, constant for TPM1.2
   encScheme: uint, ; &lt;= 2 bytes
   sigScheme: uint, ; &lt;= 2 bytes
   parms: TPM-RSA-KEY-PARMS,
@@ -4334,7 +4392,8 @@ the corresponding code listings need to be re-executed.<a href="#appendix-D.2.6-
 | ts_left = Synctoken.left
 | ts_right = Synctoken.right
 |
-| /* Reconstruct ts_right's omitted values; Alternatively assert == */
+| /* Reconstruct ts_right's omitted values;
+|    Alternatively assert == */
 | ts_right.currentTicks.tickRate = ts_left.currentTicks.tickRate
 | ts_right.currentTicks.tickNonce = ts_left.currentTicks.tickNonce
 |
@@ -4347,10 +4406,10 @@ the corresponding code listings need to be re-executed.<a href="#appendix-D.2.6-
 | verifySig(AIK_pub, dummyNonce || hash(timestamp) || ticks_right)
 |
 | delta_left = timestamp.time -
-|     ticks_left.currentTicks * ticks_left.tickRate / 1000
+|   ticks_left.currentTicks * ticks_left.tickRate / 1000
 |
 | delta_right = timestamp.time -
-|     ticks_right.currentTicks * ticks_right.tickRate / 1000
+|   ticks_right.currentTicks * ticks_right.tickRate / 1000
 </pre>
 </div>
 <figcaption><a href="#figure-11" class="selfRef">Figure 11</a>:
@@ -4425,8 +4484,8 @@ the corresponding code listings need to be re-executed.<a href="#appendix-D.2.6-
 |
 | ticks = ts.currentTicks
 |
-| time_left = delta_right + ticks.currentTicks * ticks.tickRate / 1000
-| time_right = delta_left + ticks.currentTicks * ticks.tickRate / 1000
+| time_left = delta_right + ticks.currentTicks * ticks.tickRate/1000
+| time_right = delta_left + ticks.currentTicks * ticks.tickRate/1000
 |
 | [time_left, time_right]
 </pre>
@@ -4554,7 +4613,8 @@ Measurement-Log = [
 <figure id="figure-18">
             <div id="appendix-D.3.4-2.1">
 <pre class="lang-pseudocode sourcecode">
-TUDA-AttestationToken = TUDA-AttestationToken_quote / TUDA-AttestationToken_audit
+TUDA-AttestationToken = TUDA-AttestationToken_quote
+                      / TUDA-AttestationToken_audit
 
 TUDA-AttestationToken_quote = sig(AIK-Key,
                                   TimeInfo = [
