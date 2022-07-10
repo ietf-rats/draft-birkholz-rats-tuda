@@ -66,12 +66,12 @@ normative:
   RFC5247: eap
   RFC6690: link
   RFC8949: cbor
-  RFC7230: http1
+  RFC9112: http1
   RFC7252: coap
   RFC8820: lawn
 # not used:
 #  RFC7519: jwt
-  RFC7540: http2
+  RFC9113: http2
   RFC8040: restconf
 # subscription not used
 #  RFC8639:
